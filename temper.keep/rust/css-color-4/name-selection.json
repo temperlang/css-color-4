@@ -1,7 +1,0 @@
-{
-    "about": "Backend names selected by user via the temper CLI. This file should be committed.",
-    "toolchain-version": "temper-0.5.1-dev+51-g59d9624a4",
-    "library-name": "css-color-4",
-    "backend-id": "rust",
-    "selections": []
-}
