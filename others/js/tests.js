@@ -57,9 +57,9 @@ class TestRunner {
     }
   }
 
-  assertArraysClose(arr1, arr2, message, epsilon = EPSILON) {
+  assertArraysClose(arr1, arr2, message) {
     const close = arr1.length === arr2.length && 
-                  arr1.every((val, i) => Math.abs(val - arr2[i]) < epsilon);
+                  arr1.every((val, i) => Math.abs(val - arr2[i]) < EPSILON);
     this.assert(close, message + ` [${arr1.map(v => v.toFixed(4))}] ≈ [${arr2.map(v => v.toFixed(4))}]`);
   }
 
@@ -383,7 +383,6 @@ test.assertArraysClose(
   gam_sRGB(lin_sRGB([0.999, 0.999, 0.999])),
   [0.999, 0.999, 0.999],
   'sRGB: Near-white values roundtrip',
-  0.001
 );
 
 // Summary
