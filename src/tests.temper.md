@@ -8,14 +8,20 @@
         arr1.length == arr2.length && do {
           var result = true;
           for (var i = 0; i < arr1.length; i += 1) {
-            if (!arr1[i].near(arr2[i])) {
+            if (!arr1[i].near(arr2[i], null, epsilon)) {
               result = false;
               break;
             }
           }
           result
         }
-      ) { message }
+      ) {
+        "${message}: ${vecToString(arr1)} ${vecToString(arr2)}"
+      }
+    }
+
+    let vecToString(vec: List<Float64>): String {
+      "[${vec.join(", ") { x => "${x}" }}]"
     }
 
     test("sRGB Gamma Conversion Tests") { test =>
