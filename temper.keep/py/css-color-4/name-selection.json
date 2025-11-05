@@ -1,419 +1,419 @@
 {
     "about": "Backend names selected by user via the temper CLI. This file should be committed.",
     "toolchain-version": "temper-0.5.1-dev+51-g59d9624a4",
-    "library-name": "css-color4",
+    "library-name": "css-color-4",
     "backend-id": "py",
     "selections": [
         {
-            "qualified-name": "css-color4.d50",
+            "qualified-name": "css-color-4.d50",
             "selected-name": "d50"
         },
         {
-            "qualified-name": "css-color4.d65",
+            "qualified-name": "css-color-4.d65",
             "selected-name": "d65"
         },
         {
-            "qualified-name": "css-color4.linSrgb()",
+            "qualified-name": "css-color-4.linSrgb()",
             "selected-name": "lin_srgb"
         },
         {
-            "qualified-name": "css-color4.linSrgb().sign=",
+            "qualified-name": "css-color-4.linSrgb().sign=",
             "selected-name": "sign_67"
         },
         {
-            "qualified-name": "css-color4.linSrgb().abs=",
+            "qualified-name": "css-color-4.linSrgb().abs=",
             "selected-name": "abs_68"
         },
         {
-            "qualified-name": "css-color4.gamSrgb()",
+            "qualified-name": "css-color-4.gamSrgb()",
             "selected-name": "gam_srgb"
         },
         {
-            "qualified-name": "css-color4.gamSrgb().sign=",
+            "qualified-name": "css-color-4.gamSrgb().sign=",
             "selected-name": "sign_73"
         },
         {
-            "qualified-name": "css-color4.gamSrgb().abs=",
+            "qualified-name": "css-color-4.gamSrgb().abs=",
             "selected-name": "abs_74"
         },
         {
-            "qualified-name": "css-color4.multiplyMatrixVector()",
+            "qualified-name": "css-color-4.multiplyMatrixVector()",
             "selected-name": "multiply_matrix_vector"
         },
         {
-            "qualified-name": "css-color4.multiplyMatrixVector().i=",
+            "qualified-name": "css-color-4.multiplyMatrixVector().i=",
             "selected-name": "i_237"
         },
         {
-            "qualified-name": "css-color4.linSrgbToXyz()",
+            "qualified-name": "css-color-4.linSrgbToXyz()",
             "selected-name": "lin_srgb_to_xyz"
         },
         {
-            "qualified-name": "css-color4.linSrgbToXyz().m=",
+            "qualified-name": "css-color-4.linSrgbToXyz().m=",
             "selected-name": "m_77"
         },
         {
-            "qualified-name": "css-color4.xyzToLinSrgb()",
+            "qualified-name": "css-color-4.xyzToLinSrgb()",
             "selected-name": "xyz_to_lin_srgb"
         },
         {
-            "qualified-name": "css-color4.xyzToLinSrgb().m=",
+            "qualified-name": "css-color-4.xyzToLinSrgb().m=",
             "selected-name": "m_80"
         },
         {
-            "qualified-name": "css-color4.linP3()",
+            "qualified-name": "css-color-4.linP3()",
             "selected-name": "lin_p3"
         },
         {
-            "qualified-name": "css-color4.gamP3()",
+            "qualified-name": "css-color-4.gamP3()",
             "selected-name": "gam_p3"
         },
         {
-            "qualified-name": "css-color4.linP3ToXyz()",
+            "qualified-name": "css-color-4.linP3ToXyz()",
             "selected-name": "lin_p3_to_xyz"
         },
         {
-            "qualified-name": "css-color4.linP3ToXyz().m=",
+            "qualified-name": "css-color-4.linP3ToXyz().m=",
             "selected-name": "m_87"
         },
         {
-            "qualified-name": "css-color4.xyzToLinP3()",
+            "qualified-name": "css-color-4.xyzToLinP3()",
             "selected-name": "xyz_to_lin_p3"
         },
         {
-            "qualified-name": "css-color4.xyzToLinP3().m=",
+            "qualified-name": "css-color-4.xyzToLinP3().m=",
             "selected-name": "m_90"
         },
         {
-            "qualified-name": "css-color4.linProPhoto()",
+            "qualified-name": "css-color-4.linProPhoto()",
             "selected-name": "lin_pro_photo"
         },
         {
-            "qualified-name": "css-color4.linProPhoto().et2=",
+            "qualified-name": "css-color-4.linProPhoto().et2=",
             "selected-name": "et2_93"
         },
         {
-            "qualified-name": "css-color4.linProPhoto().sign=",
+            "qualified-name": "css-color-4.linProPhoto().sign=",
             "selected-name": "sign_96"
         },
         {
-            "qualified-name": "css-color4.linProPhoto().abs=",
+            "qualified-name": "css-color-4.linProPhoto().abs=",
             "selected-name": "abs_97"
         },
         {
-            "qualified-name": "css-color4.gamProPhoto()",
+            "qualified-name": "css-color-4.gamProPhoto()",
             "selected-name": "gam_pro_photo"
         },
         {
-            "qualified-name": "css-color4.gamProPhoto().et=",
+            "qualified-name": "css-color-4.gamProPhoto().et=",
             "selected-name": "et_100"
         },
         {
-            "qualified-name": "css-color4.gamProPhoto().sign=",
+            "qualified-name": "css-color-4.gamProPhoto().sign=",
             "selected-name": "sign_103"
         },
         {
-            "qualified-name": "css-color4.gamProPhoto().abs=",
+            "qualified-name": "css-color-4.gamProPhoto().abs=",
             "selected-name": "abs_104"
         },
         {
-            "qualified-name": "css-color4.linProPhotoToXyz()",
+            "qualified-name": "css-color-4.linProPhotoToXyz()",
             "selected-name": "lin_pro_photo_to_xyz"
         },
         {
-            "qualified-name": "css-color4.linProPhotoToXyz().m=",
+            "qualified-name": "css-color-4.linProPhotoToXyz().m=",
             "selected-name": "m_107"
         },
         {
-            "qualified-name": "css-color4.xyzToLinProPhoto()",
+            "qualified-name": "css-color-4.xyzToLinProPhoto()",
             "selected-name": "xyz_to_lin_pro_photo"
         },
         {
-            "qualified-name": "css-color4.xyzToLinProPhoto().m=",
+            "qualified-name": "css-color-4.xyzToLinProPhoto().m=",
             "selected-name": "m_110"
         },
         {
-            "qualified-name": "css-color4.linA98rgb()",
+            "qualified-name": "css-color-4.linA98rgb()",
             "selected-name": "lin_a98_rgb"
         },
         {
-            "qualified-name": "css-color4.linA98rgb().sign=",
+            "qualified-name": "css-color-4.linA98rgb().sign=",
             "selected-name": "sign_115"
         },
         {
-            "qualified-name": "css-color4.linA98rgb().abs=",
+            "qualified-name": "css-color-4.linA98rgb().abs=",
             "selected-name": "abs_116"
         },
         {
-            "qualified-name": "css-color4.gamA98rgb()",
+            "qualified-name": "css-color-4.gamA98rgb()",
             "selected-name": "gam_a98_rgb"
         },
         {
-            "qualified-name": "css-color4.gamA98rgb().sign=",
+            "qualified-name": "css-color-4.gamA98rgb().sign=",
             "selected-name": "sign_121"
         },
         {
-            "qualified-name": "css-color4.gamA98rgb().abs=",
+            "qualified-name": "css-color-4.gamA98rgb().abs=",
             "selected-name": "abs_122"
         },
         {
-            "qualified-name": "css-color4.linA98rgbToXyz()",
+            "qualified-name": "css-color-4.linA98rgbToXyz()",
             "selected-name": "lin_a98_rgb_to_xyz"
         },
         {
-            "qualified-name": "css-color4.linA98rgbToXyz().m=",
+            "qualified-name": "css-color-4.linA98rgbToXyz().m=",
             "selected-name": "m_125"
         },
         {
-            "qualified-name": "css-color4.xyzToLinA98rgb()",
+            "qualified-name": "css-color-4.xyzToLinA98rgb()",
             "selected-name": "xyz_to_lin_a98_rgb"
         },
         {
-            "qualified-name": "css-color4.xyzToLinA98rgb().m=",
+            "qualified-name": "css-color-4.xyzToLinA98rgb().m=",
             "selected-name": "m_128"
         },
         {
-            "qualified-name": "css-color4.lin2020()",
+            "qualified-name": "css-color-4.lin2020()",
             "selected-name": "lin2020"
         },
         {
-            "qualified-name": "css-color4.lin2020().alpha=",
+            "qualified-name": "css-color-4.lin2020().alpha=",
             "selected-name": "alpha_131"
         },
         {
-            "qualified-name": "css-color4.lin2020().beta=",
+            "qualified-name": "css-color-4.lin2020().beta=",
             "selected-name": "beta_132"
         },
         {
-            "qualified-name": "css-color4.lin2020().sign=",
+            "qualified-name": "css-color-4.lin2020().sign=",
             "selected-name": "sign_135"
         },
         {
-            "qualified-name": "css-color4.lin2020().abs=",
+            "qualified-name": "css-color-4.lin2020().abs=",
             "selected-name": "abs_136"
         },
         {
-            "qualified-name": "css-color4.gam2020()",
+            "qualified-name": "css-color-4.gam2020()",
             "selected-name": "gam2020"
         },
         {
-            "qualified-name": "css-color4.gam2020().alpha=",
+            "qualified-name": "css-color-4.gam2020().alpha=",
             "selected-name": "alpha_139"
         },
         {
-            "qualified-name": "css-color4.gam2020().beta=",
+            "qualified-name": "css-color-4.gam2020().beta=",
             "selected-name": "beta_140"
         },
         {
-            "qualified-name": "css-color4.gam2020().sign=",
+            "qualified-name": "css-color-4.gam2020().sign=",
             "selected-name": "sign_143"
         },
         {
-            "qualified-name": "css-color4.gam2020().abs=",
+            "qualified-name": "css-color-4.gam2020().abs=",
             "selected-name": "abs_144"
         },
         {
-            "qualified-name": "css-color4.lin2020ToXyz()",
+            "qualified-name": "css-color-4.lin2020ToXyz()",
             "selected-name": "lin2020_to_xyz"
         },
         {
-            "qualified-name": "css-color4.lin2020ToXyz().m=",
+            "qualified-name": "css-color-4.lin2020ToXyz().m=",
             "selected-name": "m_147"
         },
         {
-            "qualified-name": "css-color4.xyzToLin2020()",
+            "qualified-name": "css-color-4.xyzToLin2020()",
             "selected-name": "xyz_to_lin2020"
         },
         {
-            "qualified-name": "css-color4.xyzToLin2020().m=",
+            "qualified-name": "css-color-4.xyzToLin2020().m=",
             "selected-name": "m_150"
         },
         {
-            "qualified-name": "css-color4.d65ToD50()",
+            "qualified-name": "css-color-4.d65ToD50()",
             "selected-name": "d65_to_d50"
         },
         {
-            "qualified-name": "css-color4.d65ToD50().m=",
+            "qualified-name": "css-color-4.d65ToD50().m=",
             "selected-name": "m_153"
         },
         {
-            "qualified-name": "css-color4.d50ToD65()",
+            "qualified-name": "css-color-4.d50ToD65()",
             "selected-name": "d50_to_d65"
         },
         {
-            "qualified-name": "css-color4.d50ToD65().m=",
+            "qualified-name": "css-color-4.d50ToD65().m=",
             "selected-name": "m_156"
         },
         {
-            "qualified-name": "css-color4.xyzToLab()",
+            "qualified-name": "css-color-4.xyzToLab()",
             "selected-name": "xyz_to_lab"
         },
         {
-            "qualified-name": "css-color4.xyzToLab().epsilon=",
+            "qualified-name": "css-color-4.xyzToLab().epsilon=",
             "selected-name": "epsilon_159"
         },
         {
-            "qualified-name": "css-color4.xyzToLab().kappa=",
+            "qualified-name": "css-color-4.xyzToLab().kappa=",
             "selected-name": "kappa_160"
         },
         {
-            "qualified-name": "css-color4.xyzToLab().scaledXyz=",
+            "qualified-name": "css-color-4.xyzToLab().scaledXyz=",
             "selected-name": "scaled_xyz_161"
         },
         {
-            "qualified-name": "css-color4.xyzToLab().f=",
+            "qualified-name": "css-color-4.xyzToLab().f=",
             "selected-name": "f_162"
         },
         {
-            "qualified-name": "css-color4.labToXyz()",
+            "qualified-name": "css-color-4.labToXyz()",
             "selected-name": "lab_to_xyz"
         },
         {
-            "qualified-name": "css-color4.labToXyz().kappa=",
+            "qualified-name": "css-color-4.labToXyz().kappa=",
             "selected-name": "kappa_167"
         },
         {
-            "qualified-name": "css-color4.labToXyz().epsilon=",
+            "qualified-name": "css-color-4.labToXyz().epsilon=",
             "selected-name": "epsilon_168"
         },
         {
-            "qualified-name": "css-color4.labToXyz().f1=",
+            "qualified-name": "css-color-4.labToXyz().f1=",
             "selected-name": "f1_169"
         },
         {
-            "qualified-name": "css-color4.labToXyz().f0=",
+            "qualified-name": "css-color-4.labToXyz().f0=",
             "selected-name": "f0_170"
         },
         {
-            "qualified-name": "css-color4.labToXyz().f2=",
+            "qualified-name": "css-color-4.labToXyz().f2=",
             "selected-name": "f2_171"
         },
         {
-            "qualified-name": "css-color4.labToXyz().xyz=",
+            "qualified-name": "css-color-4.labToXyz().xyz=",
             "selected-name": "xyz_172"
         },
         {
-            "qualified-name": "css-color4.labToLch()",
+            "qualified-name": "css-color-4.labToLch()",
             "selected-name": "lab_to_lch"
         },
         {
-            "qualified-name": "css-color4.labToLch().epsilon=",
+            "qualified-name": "css-color-4.labToLch().epsilon=",
             "selected-name": "epsilon_175"
         },
         {
-            "qualified-name": "css-color4.labToLch().chroma=",
+            "qualified-name": "css-color-4.labToLch().chroma=",
             "selected-name": "chroma_176"
         },
         {
-            "qualified-name": "css-color4.labToLch().hue=",
+            "qualified-name": "css-color-4.labToLch().hue=",
             "selected-name": "hue_177"
         },
         {
-            "qualified-name": "css-color4.labToLch().hueAdjusted=",
+            "qualified-name": "css-color-4.labToLch().hueAdjusted=",
             "selected-name": "hue_adjusted_178"
         },
         {
-            "qualified-name": "css-color4.lchToLab()",
+            "qualified-name": "css-color-4.lchToLab()",
             "selected-name": "lch_to_lab"
         },
         {
-            "qualified-name": "css-color4.xyzToOklab()",
+            "qualified-name": "css-color-4.xyzToOklab()",
             "selected-name": "xyz_to_oklab"
         },
         {
-            "qualified-name": "css-color4.xyzToOklab().xyzToLms=",
+            "qualified-name": "css-color-4.xyzToOklab().xyzToLms=",
             "selected-name": "xyz_to_lms_183"
         },
         {
-            "qualified-name": "css-color4.xyzToOklab().lmsToOklab=",
+            "qualified-name": "css-color-4.xyzToOklab().lmsToOklab=",
             "selected-name": "lms_to_oklab_184"
         },
         {
-            "qualified-name": "css-color4.xyzToOklab().lms=",
+            "qualified-name": "css-color-4.xyzToOklab().lms=",
             "selected-name": "lms_185"
         },
         {
-            "qualified-name": "css-color4.xyzToOklab().lmsCbrt=",
+            "qualified-name": "css-color-4.xyzToOklab().lmsCbrt=",
             "selected-name": "lms_cbrt_186"
         },
         {
-            "qualified-name": "css-color4.oklabToXyz()",
+            "qualified-name": "css-color-4.oklabToXyz()",
             "selected-name": "oklab_to_xyz"
         },
         {
-            "qualified-name": "css-color4.oklabToXyz().lmsToXyz=",
+            "qualified-name": "css-color-4.oklabToXyz().lmsToXyz=",
             "selected-name": "lms_to_xyz_191"
         },
         {
-            "qualified-name": "css-color4.oklabToXyz().oklabToLms=",
+            "qualified-name": "css-color-4.oklabToXyz().oklabToLms=",
             "selected-name": "oklab_to_lms_192"
         },
         {
-            "qualified-name": "css-color4.oklabToXyz().lmsNonlinear=",
+            "qualified-name": "css-color-4.oklabToXyz().lmsNonlinear=",
             "selected-name": "lms_nonlinear_193"
         },
         {
-            "qualified-name": "css-color4.oklabToXyz().lms=",
+            "qualified-name": "css-color-4.oklabToXyz().lms=",
             "selected-name": "lms_194"
         },
         {
-            "qualified-name": "css-color4.oklabToOklch()",
+            "qualified-name": "css-color-4.oklabToOklch()",
             "selected-name": "oklab_to_oklch"
         },
         {
-            "qualified-name": "css-color4.oklabToOklch().epsilon=",
+            "qualified-name": "css-color-4.oklabToOklch().epsilon=",
             "selected-name": "epsilon_199"
         },
         {
-            "qualified-name": "css-color4.oklabToOklch().hue=",
+            "qualified-name": "css-color-4.oklabToOklch().hue=",
             "selected-name": "hue_200"
         },
         {
-            "qualified-name": "css-color4.oklabToOklch().chroma=",
+            "qualified-name": "css-color-4.oklabToOklch().chroma=",
             "selected-name": "chroma_201"
         },
         {
-            "qualified-name": "css-color4.oklabToOklch().hueAdjusted=",
+            "qualified-name": "css-color-4.oklabToOklch().hueAdjusted=",
             "selected-name": "hue_adjusted_202"
         },
         {
-            "qualified-name": "css-color4.oklchToOklab()",
+            "qualified-name": "css-color-4.oklchToOklab()",
             "selected-name": "oklch_to_oklab"
         },
         {
-            "qualified-name": "css-color4.rectangularPremultiply()",
+            "qualified-name": "css-color-4.rectangularPremultiply()",
             "selected-name": "rectangular_premultiply"
         },
         {
-            "qualified-name": "css-color4.rectangularUnPremultiply()",
+            "qualified-name": "css-color-4.rectangularUnPremultiply()",
             "selected-name": "rectangular_un_premultiply"
         },
         {
-            "qualified-name": "css-color4.rectangularUnPremultiply().return",
+            "qualified-name": "css-color-4.rectangularUnPremultiply().return",
             "selected-name": "return_58"
         },
         {
-            "qualified-name": "css-color4.polarPremultiply()",
+            "qualified-name": "css-color-4.polarPremultiply()",
             "selected-name": "polar_premultiply"
         },
         {
-            "qualified-name": "css-color4.polarPremultiply().i=",
+            "qualified-name": "css-color-4.polarPremultiply().i=",
             "selected-name": "i_219"
         },
         {
-            "qualified-name": "css-color4.polarUnPremultiply()",
+            "qualified-name": "css-color-4.polarUnPremultiply()",
             "selected-name": "polar_un_premultiply"
         },
         {
-            "qualified-name": "css-color4.polarUnPremultiply().return",
+            "qualified-name": "css-color-4.polarUnPremultiply().return",
             "selected-name": "return_60"
         },
         {
-            "qualified-name": "css-color4.polarUnPremultiply().i=",
+            "qualified-name": "css-color-4.polarUnPremultiply().i=",
             "selected-name": "i_226"
         },
         {
-            "qualified-name": "css-color4.hslPremultiply()",
+            "qualified-name": "css-color-4.hslPremultiply()",
             "selected-name": "hsl_premultiply"
         }
     ]
