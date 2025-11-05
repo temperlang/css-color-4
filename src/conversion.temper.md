@@ -4,35 +4,35 @@
 
     // Standard white points, defined by 4-figure CIE x,y chromaticities
     export let d50: List<Float64> = [
-        0.3457 / 0.3585, 
-        1.00000, 
-        (1.0 - 0.3457 - 0.3585) / 0.3585
+      0.3457 / 0.3585,
+      1.00000,
+      (1.0 - 0.3457 - 0.3585) / 0.3585,
     ];
 
     export let d65: List<Float64> = [
-        0.3127 / 0.3290, 
-        1.00000, 
-        (1.0 - 0.3127 - 0.3290) / 0.3290
+      0.3127 / 0.3290,
+      1.00000,
+      (1.0 - 0.3127 - 0.3290) / 0.3290,
     ];
 
     // sRGB-related functions
 
-    /** 
+    /**
     * Convert an array of sRGB values where in-gamut values are in the range [0 - 1]
     * to linear light (un-companded) form.
     * Extended transfer function for negative values.
     */
     export let linSrgb(rgb: List<Float64>): List<Float64> {
-        rgb.map { (val): Float64 =>
-            let sign = if (val < 0.0) { -1.0 } else { 1.0 };
-            let abs = Float64.abs(val);
-            
-            if (abs <= 0.04045) {
-                val / 12.92
-            } else {
-                sign * Float64.pow((abs + 0.055) / 1.055, 2.4)
-            }
-        }
+      rgb.map { (val): Float64 =>
+        let sign = if (val < 0.0) { -1.0 } else { 1.0 };
+        let abs = val.abs();
+
+        if (abs <= 0.04045) {
+          val / 12.92
+        } else {
+          (sign * ((abs + 0.055) / 1.055) ** 2.4)
+        } orelse panic()
+      }
     }
 
     /**
@@ -40,416 +40,414 @@
     * to gamma corrected form.
     */
     export let gamSrgb(rgb: List<Float64>): List<Float64> {
-        rgb.map { (val): Float64 =>
-            let sign = if (val < 0.0) { -1.0 } else { 1.0 };
-            let abs = Float64.abs(val);
-            
-            if (abs > 0.0031308) {
-                sign * (1.055 * Float64.pow(abs, 1.0/2.4) - 0.055)
-            } else {
-                12.92 * val
-            }
+      rgb.map { (val): Float64 =>
+        let sign = if (val < 0.0) { -1.0 } else { 1.0 };
+        let abs = val.abs();
+
+        if (abs > 0.0031308) {
+          sign * (1.055 * (abs ** (1.0/2.4)) - 0.055)
+        } else {
+          12.92 * val
         }
+      }
     }
 
     /** Convert linear-light sRGB to CIE XYZ using D65 white point */
     export let linSrgbToXyz(rgb: List<Float64>): List<Float64> {
-        let m: List<List<Float64>> = [
-            [ 506752.0 / 1228815.0,  87881.0 / 245763.0,   12673.0 /   70218.0 ],
-            [  87098.0 /  409605.0, 175762.0 / 245763.0,   12673.0 /  175545.0 ],
-            [   7918.0 /  409605.0,  87881.0 / 737289.0, 1001167.0 / 1053270.0 ]
-        ];
-        multiplyMatrices(m, rgb)
+      let m: List<List<Float64>> = [
+        [ 506752.0 / 1228815.0,  87881.0 / 245763.0,   12673.0 /   70218.0 ],
+        [  87098.0 /  409605.0, 175762.0 / 245763.0,   12673.0 /  175545.0 ],
+        [   7918.0 /  409605.0,  87881.0 / 737289.0, 1001167.0 / 1053270.0 ]
+      ];
+      multiplyMatrixVector(m, rgb)
     }
 
     /** Convert XYZ to linear-light sRGB */
     export let xyzToLinSrgb(xyz: List<Float64>): List<Float64> {
-        let m: List<List<Float64>> = [
-            [   12831.0 /   3959.0,    -329.0 /    214.0, -1974.0 /   3959.0 ],
-            [ -851781.0 / 878810.0, 1648619.0 / 878810.0, 36519.0 / 878810.0 ],
-            [     705.0 /  12673.0,   -2585.0 /  12673.0,   705.0 /    667.0 ]
-        ];
-        multiplyMatrices(m, xyz)
+      let m: List<List<Float64>> = [
+        [   12831.0 /   3959.0,    -329.0 /    214.0, -1974.0 /   3959.0 ],
+        [ -851781.0 / 878810.0, 1648619.0 / 878810.0, 36519.0 / 878810.0 ],
+        [     705.0 /  12673.0,   -2585.0 /  12673.0,   705.0 /    667.0 ]
+      ];
+      multiplyMatrixVector(m, xyz)
     }
 
     // Display P3 functions
 
     export let linP3(rgb: List<Float64>): List<Float64> {
-        linSrgb(rgb)  // Same gamma as sRGB
+      linSrgb(rgb)  // Same gamma as sRGB
     }
 
     export let gamP3(rgb: List<Float64>): List<Float64> {
-        gamSrgb(rgb)  // Same gamma as sRGB
+      gamSrgb(rgb)  // Same gamma as sRGB
     }
 
     export let linP3ToXyz(rgb: List<Float64>): List<Float64> {
-        let m: List<List<Float64>> = [
-            [ 608311.0 / 1250200.0, 189793.0 / 714400.0,  198249.0 / 1000160.0 ],
-            [  35783.0 /  156275.0, 247089.0 / 357200.0,  198249.0 / 2500400.0 ],
-            [      0.0 /       1.0,  32229.0 / 714400.0, 5220557.0 / 5000800.0 ]
-        ];
-        multiplyMatrices(m, rgb)
+      let m: List<List<Float64>> = [
+        [ 608311.0 / 1250200.0, 189793.0 / 714400.0,  198249.0 / 1000160.0 ],
+        [  35783.0 /  156275.0, 247089.0 / 357200.0,  198249.0 / 2500400.0 ],
+        [      0.0 /       1.0,  32229.0 / 714400.0, 5220557.0 / 5000800.0 ]
+      ];
+      multiplyMatrixVector(m, rgb)
     }
 
     export let xyzToLinP3(xyz: List<Float64>): List<Float64> {
-        let m: List<List<Float64>> = [
-            [ 446124.0 / 178915.0, -333277.0 / 357830.0, -72051.0 / 178915.0 ],
-            [ -14852.0 /  17905.0,   63121.0 /  35810.0,    423.0 /  17905.0 ],
-            [  11844.0 / 330415.0,  -50337.0 / 660830.0, 316169.0 / 330415.0 ]
-        ];
-        multiplyMatrices(m, xyz)
+      let m: List<List<Float64>> = [
+        [ 446124.0 / 178915.0, -333277.0 / 357830.0, -72051.0 / 178915.0 ],
+        [ -14852.0 /  17905.0,   63121.0 /  35810.0,    423.0 /  17905.0 ],
+        [  11844.0 / 330415.0,  -50337.0 / 660830.0, 316169.0 / 330415.0 ]
+      ];
+      multiplyMatrixVector(m, xyz)
     }
 
     // ProPhoto RGB functions
 
     export let linProPhoto(rgb: List<Float64>): List<Float64> {
-        let et2 = 16.0/512.0;
-        rgb.map { (val): Float64 =>
-            let sign = if (val < 0.0) { -1.0 } else { 1.0 };
-            let abs = Float64.abs(val);
-            
-            if (abs <= et2) {
-                val / 16.0
-            } else {
-                sign * Float64.pow(abs, 1.8)
-            }
+      let et2 = 16.0/512.0;
+      rgb.map { (val): Float64 =>
+        let sign = if (val < 0.0) { -1.0 } else { 1.0 };
+        let abs = val.abs();
+
+        if (abs <= et2) {
+          val / 16.0 orelse panic()
+        } else {
+          sign * (abs ** 1.8)
         }
+      }
     }
 
     export let gamProPhoto(rgb: List<Float64>): List<Float64> {
-        let et = 1.0/512.0;
-        rgb.map { (val): Float64 =>
-            let sign = if (val < 0.0) { -1.0 } else { 1.0 };
-            let abs = Float64.abs(val);
-            
-            if (abs >= et) {
-                sign * Float64.pow(abs, 1.0/1.8)
-            } else {
-                16.0 * val
-            }
+      let et = 1.0/512.0;
+      rgb.map { (val): Float64 =>
+        let sign = if (val < 0.0) { -1.0 } else { 1.0 };
+        let abs = val.abs();
+
+        if (abs >= et) {
+          sign * (abs ** (1.0/1.8))
+        } else {
+          16.0 * val
         }
+      }
     }
 
     export let linProPhotoToXyz(rgb: List<Float64>): List<Float64> {
-        let m: List<List<Float64>> = [
-            [ 0.79776664490064230,  0.13518129740053308,  0.03134773412839220 ],
-            [ 0.28807482881940130,  0.71183523424187300,  0.00008993693872564 ],
-            [ 0.00000000000000000,  0.00000000000000000,  0.82510460251046020 ]
-        ];
-        multiplyMatrices(m, rgb)
+      let m: List<List<Float64>> = [
+        [ 0.79776664490064230,  0.13518129740053308,  0.03134773412839220 ],
+        [ 0.28807482881940130,  0.71183523424187300,  0.00008993693872564 ],
+        [ 0.00000000000000000,  0.00000000000000000,  0.82510460251046020 ]
+      ];
+      multiplyMatrixVector(m, rgb)
     }
 
     export let xyzToLinProPhoto(xyz: List<Float64>): List<Float64> {
-        let m: List<List<Float64>> = [
-            [  1.34578688164715830, -0.25557208737979464, -0.05110186497554526 ],
-            [ -0.54463070512490190,  1.50824774284514680,  0.02052744743642139 ],
-            [  0.00000000000000000,  0.00000000000000000,  1.21196754563894520 ]
-        ];
-        multiplyMatrices(m, xyz)
+      let m: List<List<Float64>> = [
+        [  1.34578688164715830, -0.25557208737979464, -0.05110186497554526 ],
+        [ -0.54463070512490190,  1.50824774284514680,  0.02052744743642139 ],
+        [  0.00000000000000000,  0.00000000000000000,  1.21196754563894520 ]
+      ];
+      multiplyMatrixVector(m, xyz)
     }
 
     // Adobe RGB (a98-rgb) functions
 
     export let linA98rgb(rgb: List<Float64>): List<Float64> {
-        rgb.map { (val): Float64 =>
-            let sign = if (val < 0.0) { -1.0 } else { 1.0 };
-            let abs = Float64.abs(val);
-            sign * Float64.pow(abs, 563.0/256.0)
-        }
+      rgb.map { (val): Float64 =>
+        let sign = if (val < 0.0) { -1.0 } else { 1.0 };
+        let abs = val.abs();
+        sign * (abs ** (563.0/256.0))
+      }
     }
 
     export let gamA98rgb(rgb: List<Float64>): List<Float64> {
-        rgb.map { (val): Float64 =>
-            let sign = if (val < 0.0) { -1.0 } else { 1.0 };
-            let abs = Float64.abs(val);
-            sign * Float64.pow(abs, 256.0/563.0)
-        }
+      rgb.map { (val): Float64 =>
+        let sign = if (val < 0.0) { -1.0 } else { 1.0 };
+        let abs = val.abs();
+        sign * (abs ** (256.0/563.0))
+      }
     }
 
     export let linA98rgbToXyz(rgb: List<Float64>): List<Float64> {
-        let m: List<List<Float64>> = [
-            [ 573536.0 /  994567.0,  263643.0 / 1420810.0,  187206.0 /  994567.0 ],
-            [ 591459.0 / 1989134.0, 6239551.0 / 9945670.0,  374412.0 / 4972835.0 ],
-            [  53769.0 / 1989134.0,  351524.0 / 4972835.0, 4929758.0 / 4972835.0 ]
-        ];
-        multiplyMatrices(m, rgb)
+      let m: List<List<Float64>> = [
+        [ 573536.0 /  994567.0,  263643.0 / 1420810.0,  187206.0 /  994567.0 ],
+        [ 591459.0 / 1989134.0, 6239551.0 / 9945670.0,  374412.0 / 4972835.0 ],
+        [  53769.0 / 1989134.0,  351524.0 / 4972835.0, 4929758.0 / 4972835.0 ]
+      ];
+      multiplyMatrixVector(m, rgb)
     }
 
     export let xyzToLinA98rgb(xyz: List<Float64>): List<Float64> {
-        let m: List<List<Float64>> = [
-            [ 1829569.0 /  896150.0, -506331.0 /  896150.0, -308931.0 /  896150.0 ],
-            [ -851781.0 /  878810.0, 1648619.0 /  878810.0,   36519.0 /  878810.0 ],
-            [   16779.0 / 1248040.0, -147721.0 / 1248040.0, 1266979.0 / 1248040.0 ]
-        ];
-        multiplyMatrices(m, xyz)
+      let m: List<List<Float64>> = [
+        [ 1829569.0 /  896150.0, -506331.0 /  896150.0, -308931.0 /  896150.0 ],
+        [ -851781.0 /  878810.0, 1648619.0 /  878810.0,   36519.0 /  878810.0 ],
+        [   16779.0 / 1248040.0, -147721.0 / 1248040.0, 1266979.0 / 1248040.0 ]
+      ];
+      multiplyMatrixVector(m, xyz)
     }
 
     // Rec. 2020 functions
 
     export let lin2020(rgb: List<Float64>): List<Float64> {
-        let alpha = 1.09929682680944;
-        let beta = 0.018053968510807;
-        
-        rgb.map { (val): Float64 =>
-            let sign = if (val < 0.0) { -1.0 } else { 1.0 };
-            let abs = Float64.abs(val);
-            
-            if (abs < beta * 4.5) {
-                val / 4.5
-            } else {
-                sign * Float64.pow((abs + alpha - 1.0) / alpha, 1.0/0.45)
-            }
-        }
+      let alpha = 1.09929682680944;
+      let beta = 0.018053968510807;
+
+      rgb.map { (val): Float64 =>
+        let sign = if (val < 0.0) { -1.0 } else { 1.0 };
+        let abs = val.abs();
+
+        if (abs < beta * 4.5) {
+          val / 4.5
+        } else {
+          sign * (((abs + alpha - 1.0) / alpha) ** (1.0/0.45))
+        } orelse panic()
+      }
     }
 
     export let gam2020(rgb: List<Float64>): List<Float64> {
-        let alpha = 1.09929682680944;
-        let beta = 0.018053968510807;
-        
-        rgb.map { (val): Float64 =>
-            let sign = if (val < 0.0) { -1.0 } else { 1.0 };
-            let abs = Float64.abs(val);
-            
-            if (abs > beta) {
-                sign * (alpha * Float64.pow(abs, 0.45) - (alpha - 1.0))
-            } else {
-                4.5 * val
-            }
+      let alpha = 1.09929682680944;
+      let beta = 0.018053968510807;
+
+      rgb.map { (val): Float64 =>
+        let sign = if (val < 0.0) { -1.0 } else { 1.0 };
+        let abs = val.abs();
+
+        if (abs > beta) {
+          sign * (alpha * (abs ** 0.45) - (alpha - 1.0))
+        } else {
+          4.5 * val
         }
+      }
     }
 
     export let lin2020ToXyz(rgb: List<Float64>): List<Float64> {
-        let m: List<List<Float64>> = [
-            [ 63426534.0 / 99577255.0,  20160776.0 / 139408157.0,  47086771.0 / 278816314.0 ],
-            [ 26158966.0 / 99577255.0, 472592308.0 / 697040785.0,   8267143.0 / 139408157.0 ],
-            [        0.0 /        1.0,  19567812.0 / 697040785.0, 295819943.0 / 278816314.0 ]
-        ];
-        multiplyMatrices(m, rgb)
+      let m: List<List<Float64>> = [
+        [ 63426534.0 / 99577255.0,  20160776.0 / 139408157.0,  47086771.0 / 278816314.0 ],
+        [ 26158966.0 / 99577255.0, 472592308.0 / 697040785.0,   8267143.0 / 139408157.0 ],
+        [      0.0 /      1.0,  19567812.0 / 697040785.0, 295819943.0 / 278816314.0 ]
+      ];
+      multiplyMatrixVector(m, rgb)
     }
 
     export let xyzToLin2020(xyz: List<Float64>): List<Float64> {
-        let m: List<List<Float64>> = [
-            [  30757411.0 / 17917100.0, -6372589.0 / 17917100.0, -4539589.0 / 17917100.0 ],
-            [ -19765991.0 / 29648200.0, 47925759.0 / 29648200.0,   467509.0 / 29648200.0 ],
-            [    792561.0 / 44930125.0, -1921689.0 / 44930125.0, 42328811.0 / 44930125.0 ]
-        ];
-        multiplyMatrices(m, xyz)
+      let m: List<List<Float64>> = [
+        [  30757411.0 / 17917100.0, -6372589.0 / 17917100.0, -4539589.0 / 17917100.0 ],
+        [ -19765991.0 / 29648200.0, 47925759.0 / 29648200.0,   467509.0 / 29648200.0 ],
+        [    792561.0 / 44930125.0, -1921689.0 / 44930125.0, 42328811.0 / 44930125.0 ]
+      ];
+      multiplyMatrixVector(m, xyz)
     }
 
     // Chromatic adaptation
 
     export let d65ToD50(xyz: List<Float64>): List<Float64> {
-        let m: List<List<Float64>> = [
-            [  1.0479297925449969,    0.022946870601609652,  -0.05019226628920524  ],
-            [  0.02962780877005599,   0.9904344267538799,    -0.017073799063418826 ],
-            [ -0.009243040646204504,  0.015055191490298152,   0.7518742814281371   ]
-        ];
-        multiplyMatrices(m, xyz)
+      let m: List<List<Float64>> = [
+        [  1.0479297925449969,    0.022946870601609652,  -0.05019226628920524  ],
+        [  0.02962780877005599,   0.9904344267538799,    -0.017073799063418826 ],
+        [ -0.009243040646204504,  0.015055191490298152,   0.7518742814281371   ]
+      ];
+      multiplyMatrixVector(m, xyz)
     }
 
     export let d50ToD65(xyz: List<Float64>): List<Float64> {
-        let m: List<List<Float64>> = [
-            [  0.955473421488075,    -0.02309845494876471,   0.06325924320057072  ],
-            [ -0.0283697093338637,    1.0099953980813041,    0.021041441191917323 ],
-            [  0.012314014864481998, -0.020507649298898964,  1.330365926242124    ]
-        ];
-        multiplyMatrices(m, xyz)
+      let m: List<List<Float64>> = [
+        [  0.955473421488075,    -0.02309845494876471,   0.06325924320057072  ],
+        [ -0.0283697093338637,    1.0099953980813041,    0.021041441191917323 ],
+        [  0.012314014864481998, -0.020507649298898964,  1.330365926242124    ]
+      ];
+      multiplyMatrixVector(m, xyz)
     }
 
     // CIE Lab and LCH
 
     export let xyzToLab(xyz: List<Float64>): List<Float64> {
-        let epsilon = 216.0/24389.0;  // 6^3/29^3
-        let kappa = 24389.0/27.0;     // 29^3/3^3
-        
-        // Compute xyz scaled relative to reference white
-        let scaledXyz = [
-            xyz[0] / d50[0],
-            xyz[1] / d50[1],
-            xyz[2] / d50[2]
-        ];
-        
-        // Compute f
-        let f = scaledXyz.map { (value): Float64 =>
-            if (value > epsilon) {
-                Float64.pow(value, 1.0/3.0)  // cbrt
-            } else {
-                (kappa * value + 16.0) / 116.0
-            }
-        };
-        
-        [
-            (116.0 * f[1]) - 16.0,  // L
-            500.0 * (f[0] - f[1]),  // a
-            200.0 * (f[1] - f[2])   // b
-        ]
+      let epsilon = 216.0/24389.0;  // 6^3/29^3
+      let kappa = 24389.0/27.0;     // 29^3/3^3
+
+      // Compute xyz scaled relative to reference white
+      let scaledXyz = [
+        xyz[0] / d50[0],
+        xyz[1] / d50[1],
+        xyz[2] / d50[2]
+      ] orelse panic();
+
+      // Compute f
+      let f = scaledXyz.map { (value): Float64 =>
+        if (value > epsilon) {
+          value ** (1.0/3.0)  // cbrt
+        } else {
+          (kappa * value + 16.0) / 116.0
+        } orelse panic()
+      };
+
+      [
+        (116.0 * f[1]) - 16.0,  // L
+        500.0 * (f[0] - f[1]),  // a
+        200.0 * (f[1] - f[2])   // b
+      ]
     }
 
     export let labToXyz(lab: List<Float64>): List<Float64> {
-        let kappa = 24389.0/27.0;
-        let epsilon = 216.0/24389.0;
-        
-        // Compute f, starting with luminance-related term
-        let f1 = (lab[0] + 16.0) / 116.0;
-        let f0 = lab[1] / 500.0 + f1;
-        let f2 = f1 - lab[2] / 200.0;
-        
-        // Compute xyz
-        let xyz = [
-            if (Float64.pow(f0, 3.0) > epsilon) { 
-                Float64.pow(f0, 3.0) 
-            } else { 
-                (116.0 * f0 - 16.0) / kappa 
-            },
-            if (lab[0] > kappa * epsilon) { 
-                Float64.pow((lab[0] + 16.0) / 116.0, 3.0) 
-            } else { 
-                lab[0] / kappa 
-            },
-            if (Float64.pow(f2, 3.0) > epsilon) { 
-                Float64.pow(f2, 3.0) 
-            } else { 
-                (116.0 * f2 - 16.0) / kappa 
-            }
-        ];
-        
-        // Scale by reference white
-        [
-            xyz[0] * d50[0],
-            xyz[1] * d50[1],
-            xyz[2] * d50[2]
-        ]
+      let kappa = 24389.0/27.0;
+      let epsilon = 216.0/24389.0;
+
+      // Compute f, starting with luminance-related term
+      let f1 = (lab[0] + 16.0) / 116.0 orelse panic();
+      let f0 = lab[1] / 500.0 + f1 orelse panic();
+      let f2 = f1 - lab[2] / 200.0 orelse panic();
+
+      // Compute xyz
+      let xyz = [
+        if ((f0 ** 3.0) > epsilon) {
+          f0 ** 3.0
+        } else {
+          (116.0 * f0 - 16.0) / kappa
+        },
+        if (lab[0] > kappa * epsilon) {
+          ((lab[0] + 16.0) / 116.0) ** 3.0
+        } else {
+          lab[0] / kappa
+        },
+        if ((f2 ** 3.0) > epsilon) {
+          f2 ** 3.0
+        } else {
+          (116.0 * f2 - 16.0) / kappa
+        }
+      ] orelse panic();
+
+      // Scale by reference white
+      [
+        xyz[0] * d50[0],
+        xyz[1] * d50[1],
+        xyz[2] * d50[2]
+      ]
     }
 
     export let labToLch(lab: List<Float64>): List<Float64> {
-        let epsilon = 0.0015;
-        let chroma = Float64.sqrt(Float64.pow(lab[1], 2.0) + Float64.pow(lab[2], 2.0));
-        let hue = Float64.atan2(lab[2], lab[1]) * 180.0 / Float64.pi;
-        let hueAdjusted = if (hue < 0.0) { hue + 360.0 } else { hue };
-        
-        // Note: In Temper, we can't use NaN directly, so we'll use a sentinel value
-        // or handle it differently depending on backend requirements
-        [
-            lab[0],      // L is still L
-            chroma,      // Chroma
-            hueAdjusted  // Hue in degrees [0, 360)
-        ]
+      let epsilon = 0.0015;
+      let chroma = ((lab[1] ** 2.0) + (lab[2] ** 2.0)) ** 0.5;
+      let hue = lab[2].atan2(lab[1]) * 180.0 / Float64.pi orelse panic();
+      let hueAdjusted = if (hue < 0.0) { hue + 360.0 } else { hue };
+
+      [
+        lab[0],      // L is still L
+        chroma,      // Chroma
+        hueAdjusted  // Hue in degrees [0, 360)
+      ]
     }
 
     export let lchToLab(lch: List<Float64>): List<Float64> {
-        [
-            lch[0],                                              // L is still L
-            lch[1] * Float64.cos(lch[2] * Float64.pi / 180.0),  // a
-            lch[1] * Float64.sin(lch[2] * Float64.pi / 180.0)   // b
-        ]
+      [
+        lch[0],                                         // L is still L
+        lch[1] * ((lch[2] * Float64.pi / 180.0).cos()), // a
+        lch[1] * ((lch[2] * Float64.pi / 180.0).sin()), // b
+      ] orelse panic()
     }
 
     // OKLab and OKLCH
 
     export let xyzToOklab(xyz: List<Float64>): List<Float64> {
-        let xyzToLms: List<List<Float64>> = [
-            [ 0.8190224379967030, 0.3619062600528904, -0.1288737815209879 ],
-            [ 0.0329836539323885, 0.9292868615863434,  0.0361446663506424 ],
-            [ 0.0481771893596242, 0.2642395317527308,  0.6335478284694309 ]
-        ];
-        let lmsToOklab: List<List<Float64>> = [
-            [ 0.2104542683093140,  0.7936177747023054, -0.0040720430116193 ],
-            [ 1.9779985324311684, -2.4285922420485799,  0.4505937096174110 ],
-            [ 0.0259040424655478,  0.7827717124575296, -0.8086757549230774 ]
-        ];
-        
-        let lms = multiplyMatrices(xyzToLms, xyz);
-        let lmsCbrt = lms.map { (c): Float64 => Float64.pow(c, 1.0/3.0) };
-        multiplyMatrices(lmsToOklab, lmsCbrt)
+      let xyzToLms: List<List<Float64>> = [
+        [ 0.8190224379967030, 0.3619062600528904, -0.1288737815209879 ],
+        [ 0.0329836539323885, 0.9292868615863434,  0.0361446663506424 ],
+        [ 0.0481771893596242, 0.2642395317527308,  0.6335478284694309 ]
+      ];
+      let lmsToOklab: List<List<Float64>> = [
+        [ 0.2104542683093140,  0.7936177747023054, -0.0040720430116193 ],
+        [ 1.9779985324311684, -2.4285922420485799,  0.4505937096174110 ],
+        [ 0.0259040424655478,  0.7827717124575296, -0.8086757549230774 ]
+      ];
+
+      let lms = multiplyMatrixVector(xyzToLms, xyz);
+      let lmsCbrt = lms.map { (c): Float64 => c ** (1.0/3.0) };
+      multiplyMatrixVector(lmsToOklab, lmsCbrt)
     }
 
     export let oklabToXyz(oklab: List<Float64>): List<Float64> {
-        let lmsToXyz: List<List<Float64>> = [
-            [  1.2268798758459243, -0.5578149944602171,  0.2813910456659647 ],
-            [ -0.0405757452148008,  1.1122868032803170, -0.0717110580655164 ],
-            [ -0.0763729366746601, -0.4214933324022432,  1.5869240198367816 ]
-        ];
-        let oklabToLms: List<List<Float64>> = [
-            [ 1.0000000000000000,  0.3963377773761749,  0.2158037573099136 ],
-            [ 1.0000000000000000, -0.1055613458156586, -0.0638541728258133 ],
-            [ 1.0000000000000000, -0.0894841775298119, -1.2914855480194092 ]
-        ];
-        
-        let lmsNonlinear = multiplyMatrices(oklabToLms, oklab);
-        let lms = lmsNonlinear.map { (c): Float64 => Float64.pow(c, 3.0) };
-        multiplyMatrices(lmsToXyz, lms)
+      let lmsToXyz: List<List<Float64>> = [
+        [  1.2268798758459243, -0.5578149944602171,  0.2813910456659647 ],
+        [ -0.0405757452148008,  1.1122868032803170, -0.0717110580655164 ],
+        [ -0.0763729366746601, -0.4214933324022432,  1.5869240198367816 ]
+      ];
+      let oklabToLms: List<List<Float64>> = [
+        [ 1.0000000000000000,  0.3963377773761749,  0.2158037573099136 ],
+        [ 1.0000000000000000, -0.1055613458156586, -0.0638541728258133 ],
+        [ 1.0000000000000000, -0.0894841775298119, -1.2914855480194092 ]
+      ];
+
+      let lmsNonlinear = multiplyMatrixVector(oklabToLms, oklab);
+      let lms = lmsNonlinear.map { (c): Float64 => c ** 3.0 };
+      multiplyMatrixVector(lmsToXyz, lms)
     }
 
     export let oklabToOklch(oklab: List<Float64>): List<Float64> {
-        let epsilon = 0.000004;
-        let hue = Float64.atan2(oklab[2], oklab[1]) * 180.0 / Float64.pi;
-        let chroma = Float64.sqrt(Float64.pow(oklab[1], 2.0) + Float64.pow(oklab[2], 2.0));
-        let hueAdjusted = if (hue < 0.0) { hue + 360.0 } else { hue };
-        
-        [
-            oklab[0],    // L is still L
-            chroma,
-            hueAdjusted
-        ]
+      let epsilon = 0.000004;
+      let hue = oklab[2].atan2(oklab[1]) * 180.0 / Float64.pi orelse panic();
+      let chroma = ((oklab[1] ** 2.0) + (oklab[2] ** 2.0)) ** 0.5;
+      let hueAdjusted = if (hue < 0.0) { hue + 360.0 } else { hue };
+
+      [
+        oklab[0],    // L is still L
+        chroma,
+        hueAdjusted
+      ]
     }
 
     export let oklchToOklab(oklch: List<Float64>): List<Float64> {
-        [
-            oklch[0],                                               // L is still L
-            oklch[1] * Float64.cos(oklch[2] * Float64.pi / 180.0), // a
-            oklch[1] * Float64.sin(oklch[2] * Float64.pi / 180.0)  // b
-        ]
+      [
+        oklch[0],                                           // L is still L
+        oklch[1] * ((oklch[2] * Float64.pi / 180.0).cos()), // a
+        oklch[1] * ((oklch[2] * Float64.pi / 180.0).sin()), // b
+      ] orelse panic()
     }
 
     // Premultiplied alpha conversions
 
     export let rectangularPremultiply(color: List<Float64>, alpha: Float64): List<Float64> {
-        color.map { (c): Float64 => c * alpha }
+      color.map { (c): Float64 => c * alpha }
     }
 
     export let rectangularUnPremultiply(color: List<Float64>, alpha: Float64): List<Float64> {
-        if (alpha == 0.0) {
-            color  // Avoid divide by zero
-        } else {
-            color.map { (c): Float64 => c / alpha }
-        }
+      if (alpha == 0.0) {
+        color  // Avoid divide by zero
+      } else {
+        color.map { (c): Float64 => (c / alpha) orelse panic() }
+      }
     }
 
     export let polarPremultiply(color: List<Float64>, alpha: Float64, hueIndex: Int): List<Float64> {
-        color.mapDropping { (c): Float64 =>
-            // This requires index tracking - need to implement with reduceFromIndex or similar
-            // Simplified version that doesn't preserve hue perfectly
-            c * alpha
-        }
-        // TODO: Implement proper index-aware mapping
+      var i = 0;
+      color.map { (c): Float64 =>
+        c * (if (hueIndex == i++) { 1.0 } else { alpha })
+      }
     }
 
     export let polarUnPremultiply(color: List<Float64>, alpha: Float64, hueIndex: Int): List<Float64> {
-        if (alpha == 0.0) {
-            color  // Avoid divide by zero
-        } else {
-            color.map { (c): Float64 => c / alpha }
+      if (alpha == 0.0) {
+        color
+      } else {
+        var i = 0;
+        color.map { (c): Float64 =>
+          c / (if (hueIndex == i++) { 1.0 } else { alpha }) orelse panic()
         }
-        // TODO: Implement proper index-aware mapping
+      }
     }
 
     export let hslPremultiply(color: List<Float64>, alpha: Float64): List<Float64> {
-        polarPremultiply(color, alpha, 0)
+      polarPremultiply(color, alpha, 0)
     }
 
     // Matrix multiplication utility
 
     /**
-    * Simple matrix (and vector) multiplication.
-    * A is m x n. B is n x p. Product is m x p.
+    * Simple matrix and vector multiplication.
+    * Warning: No error handling for incompatible dimensions!
+    * @author Lea Verou 2020 MIT License
+    * A is m x n. B is n x 1. Product is m x 1.
     */
-    export let multiplyMatrices(a: List<Listed<Float64>>, b: List<Float64>): List<Float64> {
-        // Handle vector b - treat as column vector
-        a.map { (row): Float64 =>
-            row.reduceFromIndex(0.0, 0) { (sum, val): Float64 =>
-                // This needs proper index tracking
-                sum + val * b[0]  // Simplified - needs proper implementation
-            }
+    export let multiplyMatrixVector(a: List<List<Float64>>, b: List<Float64>): List<Float64> {
+      a.map { (row): Float64 =>
+        var i = 0;
+        b.reduceFrom(0.0) { (sum: Float64, val: Float64): Float64 =>
+          sum + val * row[i++]
         }
-        // TODO: Full matrix multiplication implementation
+      }
     }

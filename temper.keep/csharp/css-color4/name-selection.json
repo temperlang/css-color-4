@@ -1,0 +1,160 @@
+{
+    "about": "Backend names selected by user via the temper CLI. This file should be committed.",
+    "toolchain-version": "temper-0.5.1-dev+51-g59d9624a4",
+    "library-name": "css-color4",
+    "backend-id": "csharp",
+    "selections": [
+        {
+            "qualified-name": "css-color4.d50",
+            "selected-name": "D50"
+        },
+        {
+            "qualified-name": "css-color4.d65",
+            "selected-name": "D65"
+        },
+        {
+            "qualified-name": "css-color4.linSrgb()",
+            "selected-name": "LinSrgb"
+        },
+        {
+            "qualified-name": "css-color4.gamSrgb()",
+            "selected-name": "GamSrgb"
+        },
+        {
+            "qualified-name": "css-color4.multiplyMatrixVector()",
+            "selected-name": "MultiplyMatrixVector"
+        },
+        {
+            "qualified-name": "css-color4.linSrgbToXyz()",
+            "selected-name": "LinSrgbToXyz"
+        },
+        {
+            "qualified-name": "css-color4.xyzToLinSrgb()",
+            "selected-name": "XyzToLinSrgb"
+        },
+        {
+            "qualified-name": "css-color4.linP3()",
+            "selected-name": "LinP3"
+        },
+        {
+            "qualified-name": "css-color4.gamP3()",
+            "selected-name": "GamP3"
+        },
+        {
+            "qualified-name": "css-color4.linP3ToXyz()",
+            "selected-name": "LinP3_ToXyz"
+        },
+        {
+            "qualified-name": "css-color4.xyzToLinP3()",
+            "selected-name": "XyzToLinP3"
+        },
+        {
+            "qualified-name": "css-color4.linProPhoto()",
+            "selected-name": "LinProPhoto"
+        },
+        {
+            "qualified-name": "css-color4.gamProPhoto()",
+            "selected-name": "GamProPhoto"
+        },
+        {
+            "qualified-name": "css-color4.linProPhotoToXyz()",
+            "selected-name": "LinProPhotoToXyz"
+        },
+        {
+            "qualified-name": "css-color4.xyzToLinProPhoto()",
+            "selected-name": "XyzToLinProPhoto"
+        },
+        {
+            "qualified-name": "css-color4.linA98rgb()",
+            "selected-name": "LinA98_Rgb"
+        },
+        {
+            "qualified-name": "css-color4.gamA98rgb()",
+            "selected-name": "GamA98_Rgb"
+        },
+        {
+            "qualified-name": "css-color4.linA98rgbToXyz()",
+            "selected-name": "LinA98_RgbToXyz"
+        },
+        {
+            "qualified-name": "css-color4.xyzToLinA98rgb()",
+            "selected-name": "XyzToLinA98_Rgb"
+        },
+        {
+            "qualified-name": "css-color4.lin2020()",
+            "selected-name": "Lin2020"
+        },
+        {
+            "qualified-name": "css-color4.gam2020()",
+            "selected-name": "Gam2020"
+        },
+        {
+            "qualified-name": "css-color4.lin2020ToXyz()",
+            "selected-name": "Lin2020_ToXyz"
+        },
+        {
+            "qualified-name": "css-color4.xyzToLin2020()",
+            "selected-name": "XyzToLin2020"
+        },
+        {
+            "qualified-name": "css-color4.d65ToD50()",
+            "selected-name": "D65_ToD50"
+        },
+        {
+            "qualified-name": "css-color4.d50ToD65()",
+            "selected-name": "D50_ToD65"
+        },
+        {
+            "qualified-name": "css-color4.xyzToLab()",
+            "selected-name": "XyzToLab"
+        },
+        {
+            "qualified-name": "css-color4.labToXyz()",
+            "selected-name": "LabToXyz"
+        },
+        {
+            "qualified-name": "css-color4.labToLch()",
+            "selected-name": "LabToLch"
+        },
+        {
+            "qualified-name": "css-color4.lchToLab()",
+            "selected-name": "LchToLab"
+        },
+        {
+            "qualified-name": "css-color4.xyzToOklab()",
+            "selected-name": "XyzToOklab"
+        },
+        {
+            "qualified-name": "css-color4.oklabToXyz()",
+            "selected-name": "OklabToXyz"
+        },
+        {
+            "qualified-name": "css-color4.oklabToOklch()",
+            "selected-name": "OklabToOklch"
+        },
+        {
+            "qualified-name": "css-color4.oklchToOklab()",
+            "selected-name": "OklchToOklab"
+        },
+        {
+            "qualified-name": "css-color4.rectangularPremultiply()",
+            "selected-name": "RectangularPremultiply"
+        },
+        {
+            "qualified-name": "css-color4.rectangularUnPremultiply()",
+            "selected-name": "RectangularUnPremultiply"
+        },
+        {
+            "qualified-name": "css-color4.polarPremultiply()",
+            "selected-name": "PolarPremultiply"
+        },
+        {
+            "qualified-name": "css-color4.polarUnPremultiply()",
+            "selected-name": "PolarUnPremultiply"
+        },
+        {
+            "qualified-name": "css-color4.hslPremultiply()",
+            "selected-name": "HslPremultiply"
+        }
+    ]
+}
