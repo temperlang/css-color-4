@@ -1,3 +1,5 @@
+This code was originally translated by AI from JS but then fixed manually.
+
     // CSS Color Module Level 4 - Temper Implementation
     // Converted from JavaScript reference implementation
     // W3C Candidate Recommendation Draft, 24 April 2025
