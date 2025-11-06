@@ -459,7 +459,7 @@ See https://github.com/color-js/color.js/pull/357
 JavaScript Math.cbrt returns a sign-matched cube root beware if porting to other
 languages especially if tempted to use a general power function.
 
-    let cbrt(x: Float64) { x.sign() * x.abs() ** (1.0 / 3.0) }
+    let cbrt(x: Float64): Float64 { x.sign() * x.abs() ** (1.0 / 3.0) }
 
 Given OKLab, convert to XYZ relative to D65
 
