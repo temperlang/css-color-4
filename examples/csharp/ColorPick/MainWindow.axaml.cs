@@ -3,8 +3,11 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
+using CssColor4;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace ColorPick;
 
@@ -79,6 +82,7 @@ public partial class MainWindow : Window
         if (x < 0 || x >= _bitmap.PixelSize.Width || y < 0 || y >= _bitmap.PixelSize.Height)
             return;
 
+        IReadOnlyList<double> rgb;
         unsafe
         {
             using (var fb = _bitmap.Lock())
@@ -88,9 +92,42 @@ public partial class MainWindow : Window
                 byte b = ptr[offset];
                 byte g = ptr[offset + 1];
                 byte r = ptr[offset + 2];
-
-                _rgbText.Text = $"RGB: ({r}, {g}, {b}) at ({x}, {y})";
+                rgb = new double[] {r, g, b};
             }
         }
+        var oklab = RgbToOklab(rgb);
+        var rgbMatch = CssColor4Global.NamedColors
+            .Select(kv => new { kv.Key, Value = DistanceSquared(rgb, ToDoubles(kv.Value)) })
+            .Aggregate((a, b) => a.Value < b.Value ? a : b);
+        var oklabMatch = CssColor4Global.NamedColors
+            .Select(kv => new { kv.Key, Value = DistanceSquared(oklab, RgbToOklab(ToDoubles(kv.Value))) })
+            .Aggregate((a, b) => a.Value < b.Value ? a : b);
+        _rgbText.Text =
+            $"RGB: ({rgb[0]}, {rgb[1]}, {rgb[2]}) at ({x}, {y}) {rgbMatch.Key} vs {oklabMatch.Key}";
+    }
+
+    /// Throws if b is shorter than a.
+    private static double DistanceSquared(IReadOnlyList<double> a, IReadOnlyList<double> b)
+    {
+        var sum = 0.0;
+        for (var i = 0; i < a.Count; i += 1) {
+            var diff = a[i] - b[i];
+            sum += diff * diff;
+        }
+        return sum;
+    }
+
+    private static IReadOnlyList<double> RgbToOklab(IReadOnlyList<double> rgb)
+    {
+        IReadOnlyList<double> result = rgb.Select(x => x / 255.0).ToArray();
+        result = CssColor4Global.LinSrgb(result);
+        result = CssColor4Global.LinSrgbToXyz(result);
+        result = CssColor4Global.XyzToOklab(result);
+        return result;
+    }
+
+    private static IReadOnlyList<double> ToDoubles(IReadOnlyList<int> a)
+    {
+        return a.Select(x => (double)x).ToArray();
     }
 }
