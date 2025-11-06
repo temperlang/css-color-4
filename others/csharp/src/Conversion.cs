@@ -407,6 +407,7 @@ namespace CssColor4
             };
 
             double[] lms = MultiplyMatrices(xyzToLms, xyz);
+            // TODO Deal with negative values for `c` here? Dotnet Math.Pow gives NaN in such cases.
             double[] lmsCbrt = lms.Select(c => Math.Pow(c, 1.0 / 3.0)).ToArray();
             return MultiplyMatrices(lmsToOklab, lmsCbrt);
         }

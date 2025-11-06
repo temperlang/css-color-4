@@ -1,10 +1,10 @@
+# Sample code for Color Conversions
+
 This code was originally translated by AI from JS but then fixed manually.
+See: https://www.w3.org/TR/css-color-4/#color-conversion-code
 
-    // CSS Color Module Level 4 - Temper Implementation
-    // Converted from JavaScript reference implementation
-    // W3C Candidate Recommendation Draft, 24 April 2025
+Standard white points, defined by 4-figure CIE x,y chromaticities
 
-    // Standard white points, defined by 4-figure CIE x,y chromaticities
     export let d50: List<Float64> = [
       0.3457 / 0.3585,
       1.00000,
@@ -17,13 +17,14 @@ This code was originally translated by AI from JS but then fixed manually.
       (1.0 - 0.3127 - 0.3290) / 0.3290,
     ];
 
-    // sRGB-related functions
+## sRGB-related functions
 
-    /**
-    * Convert an array of sRGB values where in-gamut values are in the range [0 - 1]
-    * to linear light (un-companded) form.
-    * Extended transfer function for negative values.
-    */
+Convert an array of sRGB values where in-gamut values are in the range [0 - 1]
+to linear light (un-companded) form. See: https://en.wikipedia.org/wiki/SRGB
+
+Extended transfer function: for negative values,  linear portion is extended on
+reflection of axis, then reflected power function is used.
+
     export let linSrgb(rgb: List<Float64>): List<Float64> {
       rgb.map { (val): Float64 =>
         let sign = if (val < 0.0) { -1.0 } else { 1.0 };
@@ -37,10 +38,12 @@ This code was originally translated by AI from JS but then fixed manually.
       }
     }
 
-    /**
-    * Convert an array of linear-light sRGB values in the range 0.0-1.0
-    * to gamma corrected form.
-    */
+Convert an array of linear-light sRGB values in the range 0.0-1.0 to gamma
+corrected form. See: https://en.wikipedia.org/wiki/SRGB
+
+Extended transfer function: For negative values, linear portion extends on
+reflection of axis, then uses reflected pow below that
+
     export let gamSrgb(rgb: List<Float64>): List<Float64> {
       rgb.map { (val): Float64 =>
         let sign = if (val < 0.0) { -1.0 } else { 1.0 };
@@ -54,7 +57,9 @@ This code was originally translated by AI from JS but then fixed manually.
       }
     }
 
-    /** Convert linear-light sRGB to CIE XYZ using D65 white point */
+Convert an array of linear-light sRGB values to CIE XYZ using sRGB's own white,
+D65 (no chromatic adaptation)
+
     export let linSrgbToXyz(rgb: List<Float64>): List<Float64> {
       let m: List<List<Float64>> = [
         [ 506752.0 / 1228815.0,  87881.0 / 245763.0,   12673.0 /   70218.0 ],
@@ -64,7 +69,9 @@ This code was originally translated by AI from JS but then fixed manually.
       multiplyMatrixVector(m, rgb)
     }
 
-    /** Convert XYZ to linear-light sRGB */
+
+Convert XYZ to linear-light sRGB.
+
     export let xyzToLinSrgb(xyz: List<Float64>): List<Float64> {
       let m: List<List<Float64>> = [
         [   12831.0 /   3959.0,    -329.0 /    214.0, -1974.0 /   3959.0 ],
@@ -74,15 +81,25 @@ This code was originally translated by AI from JS but then fixed manually.
       multiplyMatrixVector(m, xyz)
     }
 
-    // Display P3 functions
+## display-p3-related functions
+
+Convert an array of display-p3 RGB values in the range 0.0 - 1.0 to linear light
+(un-companded) form.
 
     export let linP3(rgb: List<Float64>): List<Float64> {
       linSrgb(rgb)  // Same gamma as sRGB
     }
 
+Convert an array of linear-light display-p3 RGB  in the range 0.0-1.0 to gamma
+corrected form.
+
     export let gamP3(rgb: List<Float64>): List<Float64> {
       gamSrgb(rgb)  // Same gamma as sRGB
     }
+
+Convert an array of linear-light display-p3 values to CIE XYZ using D65 (no
+chromatic adaptation).
+http://www.brucelindbloom.com/index.html?Eqn_RGB_XYZ_Matrix.html
 
     export let linP3ToXyz(rgb: List<Float64>): List<Float64> {
       let m: List<List<Float64>> = [
@@ -93,6 +110,8 @@ This code was originally translated by AI from JS but then fixed manually.
       multiplyMatrixVector(m, rgb)
     }
 
+Convert XYZ to linear-light P3.
+
     export let xyzToLinP3(xyz: List<Float64>): List<Float64> {
       let m: List<List<Float64>> = [
         [ 446124.0 / 178915.0, -333277.0 / 357830.0, -72051.0 / 178915.0 ],
@@ -102,7 +121,11 @@ This code was originally translated by AI from JS but then fixed manually.
       multiplyMatrixVector(m, xyz)
     }
 
-    // ProPhoto RGB functions
+## ProPhoto RGB functions
+
+Convert an array of prophoto-rgb values where in-gamut colors are in the range
+[0.0 - 1.0] to linear light (un-companded) form. Transfer curve is gamma 1.8
+with a small linear portion Extended transfer function.
 
     export let linProPhoto(rgb: List<Float64>): List<Float64> {
       let et2 = 16.0/512.0;
@@ -118,6 +141,11 @@ This code was originally translated by AI from JS but then fixed manually.
       }
     }
 
+Convert an array of linear-light prophoto-rgb in the range 0.0-1.0 to gamma
+corrected form. Transfer curve is gamma 1.8 with a small linear portion
+
+TODO for negative values, extend linear portion on reflection of axis, then add pow below that
+
     export let gamProPhoto(rgb: List<Float64>): List<Float64> {
       let et = 1.0/512.0;
       rgb.map { (val): Float64 =>
@@ -132,6 +160,10 @@ This code was originally translated by AI from JS but then fixed manually.
       }
     }
 
+Convert an array of linear-light prophoto-rgb values to CIE D50 XYZ matrix
+cannot be expressed in rational form, but is calculated to 64 bit accuracy.
+See https://github.com/w3c/csswg-drafts/issues/7675
+
     export let linProPhotoToXyz(rgb: List<Float64>): List<Float64> {
       let m: List<List<Float64>> = [
         [ 0.79776664490064230,  0.13518129740053308,  0.03134773412839220 ],
@@ -140,6 +172,8 @@ This code was originally translated by AI from JS but then fixed manually.
       ];
       multiplyMatrixVector(m, rgb)
     }
+
+Convert D50 XYZ to linear-light prophoto-rgb.
 
     export let xyzToLinProPhoto(xyz: List<Float64>): List<Float64> {
       let m: List<List<Float64>> = [
@@ -150,7 +184,10 @@ This code was originally translated by AI from JS but then fixed manually.
       multiplyMatrixVector(m, xyz)
     }
 
-    // Adobe RGB (a98-rgb) functions
+## a98-rgb functions
+
+Convert an array of a98-rgb values in the range 0.0 - 1.0 to linear light
+(un-companded) form. Negative values are also now accepted.
 
     export let linA98rgb(rgb: List<Float64>): List<Float64> {
       rgb.map { (val): Float64 =>
@@ -160,6 +197,9 @@ This code was originally translated by AI from JS but then fixed manually.
       }
     }
 
+Convert an array of linear-light a98-rgb  in the range 0.0-1.0 to gamma
+corrected form negative values are also now accepted.
+
     export let gamA98rgb(rgb: List<Float64>): List<Float64> {
       rgb.map { (val): Float64 =>
         let sign = if (val < 0.0) { -1.0 } else { 1.0 };
@@ -167,6 +207,13 @@ This code was originally translated by AI from JS but then fixed manually.
         sign * (abs ** (256.0/563.0))
       }
     }
+
+Convert an array of linear-light a98-rgb values to CIE XYZ
+http://www.brucelindbloom.com/index.html?Eqn_RGB_XYZ_Matrix.html
+has greater numerical precision than section 4.3.5.3 of
+https://www.adobe.com/digitalimag/pdfs/AdobeRGB1998.pdf
+but the values below were calculated from first principles
+from the chromaticity coordinates of R G B W. See matrixmaker.html
 
     export let linA98rgbToXyz(rgb: List<Float64>): List<Float64> {
       let m: List<List<Float64>> = [
@@ -177,6 +224,8 @@ This code was originally translated by AI from JS but then fixed manually.
       multiplyMatrixVector(m, rgb)
     }
 
+Convert XYZ to linear-light a98-rgb.
+
     export let xyzToLinA98rgb(xyz: List<Float64>): List<Float64> {
       let m: List<List<Float64>> = [
         [ 1829569.0 /  896150.0, -506331.0 /  896150.0, -308931.0 /  896150.0 ],
@@ -186,7 +235,11 @@ This code was originally translated by AI from JS but then fixed manually.
       multiplyMatrixVector(m, xyz)
     }
 
-    // Rec. 2020 functions
+## Rec. 2020-related functions
+
+Convert an array of rec2020 RGB values in the range 0.0 - 1.0 to linear light
+(un-companded) form. ITU-R BT.2020-2 p.4
+
 
     export let lin2020(rgb: List<Float64>): List<Float64> {
       let alpha = 1.09929682680944;
@@ -204,6 +257,9 @@ This code was originally translated by AI from JS but then fixed manually.
       }
     }
 
+Convert an array of linear-light rec2020 RGB  in the range 0.0-1.0 to gamma
+corrected form. ITU-R BT.2020-2 p.4
+
     export let gam2020(rgb: List<Float64>): List<Float64> {
       let alpha = 1.09929682680944;
       let beta = 0.018053968510807;
@@ -220,14 +276,21 @@ This code was originally translated by AI from JS but then fixed manually.
       }
     }
 
+Convert an array of linear-light rec2020 values to CIE XYZ using  D65 (no
+chromatic adaptation)
+http://www.brucelindbloom.com/index.html?Eqn_RGB_XYZ_Matrix.html
+
     export let lin2020ToXyz(rgb: List<Float64>): List<Float64> {
       let m: List<List<Float64>> = [
         [ 63426534.0 / 99577255.0,  20160776.0 / 139408157.0,  47086771.0 / 278816314.0 ],
         [ 26158966.0 / 99577255.0, 472592308.0 / 697040785.0,   8267143.0 / 139408157.0 ],
         [      0.0 /      1.0,  19567812.0 / 697040785.0, 295819943.0 / 278816314.0 ]
       ];
+    	// 0 is actually calculated as  4.994106574466076e-17
       multiplyMatrixVector(m, rgb)
     }
+
+Convert XYZ to linear-light rec2020.
 
     export let xyzToLin2020(xyz: List<Float64>): List<Float64> {
       let m: List<List<Float64>> = [
@@ -238,7 +301,16 @@ This code was originally translated by AI from JS but then fixed manually.
       multiplyMatrixVector(m, xyz)
     }
 
-    // Chromatic adaptation
+## Chromatic adaptation
+
+Bradford chromatic adaptation from D65 to D50 The matrix below is the result of
+three operations:
+
+- convert from XYZ to retinal cone domain
+- scale components from one reference white to another
+- convert back to XYZ
+
+See https://github.com/LeaVerou/color.js/pull/354/files
 
     export let d65ToD50(xyz: List<Float64>): List<Float64> {
       let m: List<List<Float64>> = [
@@ -249,6 +321,9 @@ This code was originally translated by AI from JS but then fixed manually.
       multiplyMatrixVector(m, xyz)
     }
 
+Bradford chromatic adaptation from D50 to D65.
+See https://github.com/LeaVerou/color.js/pull/360/files
+
     export let d50ToD65(xyz: List<Float64>): List<Float64> {
       let m: List<List<Float64>> = [
         [  0.955473421488075,    -0.02309845494876471,   0.06325924320057072  ],
@@ -258,23 +333,26 @@ This code was originally translated by AI from JS but then fixed manually.
       multiplyMatrixVector(m, xyz)
     }
 
-    // CIE Lab and LCH
+## CIE Lab and LCH
+
+Assuming XYZ is relative to D50, convert to CIE Lab from CIE standard, which now
+defines these as a rational fraction.
 
     export let xyzToLab(xyz: List<Float64>): List<Float64> {
       let epsilon = 216.0/24389.0;  // 6^3/29^3
       let kappa = 24389.0/27.0;     // 29^3/3^3
 
-      // Compute xyz scaled relative to reference white
+      // compute xyz, which is XYZ scaled relative to reference white
       let scaledXyz = [
         xyz[0] / d50[0],
         xyz[1] / d50[1],
         xyz[2] / d50[2]
       ] orelse panic();
 
-      // Compute f
+      // now compute f
       let f = scaledXyz.map { (value): Float64 =>
         if (value > epsilon) {
-          value ** (1.0/3.0)  // cbrt
+          cbrt(value)
         } else {
           (kappa * value + 16.0) / 116.0
         } orelse panic()
@@ -285,18 +363,22 @@ This code was originally translated by AI from JS but then fixed manually.
         500.0 * (f[0] - f[1]),  // a
         200.0 * (f[1] - f[2])   // b
       ]
+    	// L in range [0,100]. For use in CSS, add a percent
     }
+
+Convert Lab to D50-adapted XYZ.
+http://www.brucelindbloom.com/index.html?Eqn_RGB_XYZ_Matrix.html
 
     export let labToXyz(lab: List<Float64>): List<Float64> {
       let kappa = 24389.0/27.0;
       let epsilon = 216.0/24389.0;
 
-      // Compute f, starting with luminance-related term
+      // compute f, starting with the luminance-related term
       let f1 = (lab[0] + 16.0) / 116.0 orelse panic();
       let f0 = lab[1] / 500.0 + f1 orelse panic();
       let f2 = f1 - lab[2] / 200.0 orelse panic();
 
-      // Compute xyz
+      // compute xyz
       let xyz = [
         if ((f0 ** 3.0) > epsilon) {
           f0 ** 3.0
@@ -315,7 +397,7 @@ This code was originally translated by AI from JS but then fixed manually.
         }
       ] orelse panic();
 
-      // Scale by reference white
+      // Compute XYZ by scaling xyz by reference white
       [
         xyz[0] * d50[0],
         xyz[1] * d50[1],
@@ -336,6 +418,8 @@ This code was originally translated by AI from JS but then fixed manually.
       ]
     }
 
+Convert from polar form.
+
     export let lchToLab(lch: List<Float64>): List<Float64> {
       [
         lch[0],                                         // L is still L
@@ -344,9 +428,17 @@ This code was originally translated by AI from JS but then fixed manually.
       ] orelse panic()
     }
 
-    // OKLab and OKLCH
+## OKLab and OKLCH
+
+https://bottosson.github.io/posts/oklab/
+
+XYZ <-> LMS matrices recalculated for consistent reference white.
+See https://github.com/w3c/csswg-drafts/issues/6642#issuecomment-943521484
+Recalculated for 64bit precision.
+See https://github.com/color-js/color.js/pull/357
 
     export let xyzToOklab(xyz: List<Float64>): List<Float64> {
+      // Given XYZ relative to D65, convert to OKLab
       let xyzToLms: List<List<Float64>> = [
         [ 0.8190224379967030, 0.3619062600528904, -0.1288737815209879 ],
         [ 0.0329836539323885, 0.9292868615863434,  0.0361446663506424 ],
@@ -359,9 +451,17 @@ This code was originally translated by AI from JS but then fixed manually.
       ];
 
       let lms = multiplyMatrixVector(xyzToLms, xyz);
-      let lmsCbrt = lms.map { (c): Float64 => c ** (1.0/3.0) };
+      let lmsCbrt = lms.map { (c): Float64 => cbrt(c) };
       multiplyMatrixVector(lmsToOklab, lmsCbrt)
+      // L in range [0,1]. For use in CSS, multiply by 100 and add a percent
     }
+
+JavaScript Math.cbrt returns a sign-matched cube root beware if porting to other
+languages especially if tempted to use a general power function.
+
+    let cbrt(x: Float64) { x.sign() * x.abs() ** (1.0 / 3.0) }
+
+Given OKLab, convert to XYZ relative to D65
 
     export let oklabToXyz(oklab: List<Float64>): List<Float64> {
       let lmsToXyz: List<List<Float64>> = [
@@ -401,11 +501,17 @@ This code was originally translated by AI from JS but then fixed manually.
       ] orelse panic()
     }
 
-    // Premultiplied alpha conversions
+## Premultiplied alpha conversions
+
+Given a color in a rectangular orthogonal colorspace and an alpha valu, return
+the premultiplied form.
 
     export let rectangularPremultiply(color: List<Float64>, alpha: Float64): List<Float64> {
       color.map { (c): Float64 => c * alpha }
     }
+
+Given a premultiplied color in a rectangular orthogonal colorspace and an alpha
+value, return the actual color.
 
     export let rectangularUnPremultiply(color: List<Float64>, alpha: Float64): List<Float64> {
       if (alpha == 0.0) {
@@ -415,12 +521,20 @@ This code was originally translated by AI from JS but then fixed manually.
       }
     }
 
+Given a color in a cylindicalpolar colorspace and an alpha value, return the
+premultiplied form. The index says which entry in the color array corresponds to
+hue angle for example, in OKLCH it would be 2 while in HSL it would be 0.
+
     export let polarPremultiply(color: List<Float64>, alpha: Float64, hueIndex: Int): List<Float64> {
       var i = 0;
       color.map { (c): Float64 =>
         c * (if (hueIndex == i++) { 1.0 } else { alpha })
       }
     }
+
+Given a color in a cylindicalpolar colorspace and an alpha value, return the
+actual color. The hueIndex says which entry in the color array corresponds to
+hue angle. For example, in OKLCH it would be 2 while in HSL it would be 0.
 
     export let polarUnPremultiply(color: List<Float64>, alpha: Float64, hueIndex: Int): List<Float64> {
       if (alpha == 0.0) {
@@ -433,18 +547,19 @@ This code was originally translated by AI from JS but then fixed manually.
       }
     }
 
+Convenience functions can easily be defined.
+
     export let hslPremultiply(color: List<Float64>, alpha: Float64): List<Float64> {
       polarPremultiply(color, alpha, 0)
     }
 
-    // Matrix multiplication utility
+## Matrix multiplication utility
 
-    /**
-    * Simple matrix and vector multiplication.
-    * Warning: No error handling for incompatible dimensions!
-    * @author Lea Verou 2020 MIT License
-    * A is m x n. B is n x 1. Product is m x 1.
-    */
+Simple matrix and vector multiplication. Warning: No error handling for
+incompatible dimensions! A is m x n. B is n x 1. Product is m x 1.
+
+Author: Lea Verou 2020 MIT License
+
     export let multiplyMatrixVector(a: List<List<Float64>>, b: List<Float64>): List<Float64> {
       a.map { (row): Float64 =>
         var i = 0;
